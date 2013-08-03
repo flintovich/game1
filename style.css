@@ -79,3 +79,10 @@ input {
 	position: absolute;
 	bottom: 100px;
 }
+.bug{
+	width: 60px;
+	height: 30px;
+	background: #cc0000;
+	float: left;
+	margin: 5px 28px;
+}
