@@ -39,6 +39,7 @@ jQuery(document).ready(function ($) {
 		}
 	});
 	
+	
 	// add rand bug
 	function addBug(){
 		function rand (min, max){
@@ -49,5 +50,5 @@ jQuery(document).ready(function ($) {
 		randNubrer = rand(1, 540);
 		$('#wrapper').append('<div style="left: '+randNubrer+'px" class="bug" />');
 	}
-	setInterval(addBug, 2000);
+	setInterval(addBug, 2500);
 });
