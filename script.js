@@ -8,8 +8,8 @@ jQuery(document).ready(function ($) {
 			$('#wrapper').append('<div class="rocket" />');
 
 			function removeRocket(){
-				$(this).remove();
 				rocket = false;
+				$(this).remove();
 			}
 			$('.rocket').css('left',leftShotPosition).animate({bottom: '500px'},800, 'linear', removeRocket);	
 			function count(){
@@ -38,4 +38,16 @@ jQuery(document).ready(function ($) {
 			return false
 		}
 	});
+	
+	// add rand bug
+	function addBug(){
+		function rand (min, max){
+		  min = parseInt(min);
+		  max = parseInt(max);
+		  return Math.floor( Math.random() * (max - min + 1) ) + min;	  
+		}
+		randNubrer = rand(1, 540);
+		$('#wrapper').append('<div style="left: '+randNubrer+'px" class="bug" />');
+	}
+	setInterval(addBug, 2000);
 });
