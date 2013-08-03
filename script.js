@@ -50,5 +50,5 @@ jQuery(document).ready(function ($) {
 		randNubrer = rand(1, 540);
 		$('#wrapper').append('<div style="left: '+randNubrer+'px" class="bug" />');
 	}
-	setInterval(addBug, 2500);
+	setInterval(addBug, 2600);
 });
