@@ -28,7 +28,7 @@ jQuery(document).ready(function ($) {
 						if(topRocket > topBug && topRocket < bottomBug && leftRocket > leftBug && leftRocket < rightBug){
 							rocket = false;
 							$(this).remove();
-							$('.rocket').remove();
+							$('.rocket').eq(0).remove();
 						}
 					});
 				}
