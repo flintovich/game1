@@ -73,16 +73,29 @@ input {
 	left: 45%;
 }
 .rocket{
-	width: 3px;
+	width: 2px;
 	height: 10px;
 	background: #000;
 	position: absolute;
 	bottom: 100px;
+	z-index: 1;
 }
 .bug{
 	width: 60px;
 	height: 30px;
 	background: #cc0000;
-	float: left;
-	margin: 5px 28px;
+	z-index: 5;
+	position: absolute;
+}
+
+.bug.first{
+	left: 20px;
+}
+.bug.second{
+	left: 270px;
+	top: 65px;
+}
+.bug.third{
+	left: 380px;
+	top: 20px;
 }

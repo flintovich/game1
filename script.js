@@ -1,29 +1,41 @@
 jQuery.noConflict();
 jQuery(document).ready(function ($) {
 	$('body').keydown(function(shotClick){
-	  if(shotClick.which == 32){
-		var leftShotPosition = parseInt($('.tank').css('left')) + ($('.tank').width() / 2);
-		$('#wrapper').append('<div class="rocket" />');
-		
-		function removeRocket(){
-			$(this).remove();
-		}
-		$('.rocket').css('left',leftShotPosition).animate({bottom: '500px'},1000, 'linear', removeRocket);	
-		
-		  function count(){
-			var leftTopBug = jQuery(".bug").eq(2).position().top;
-			var leftBottomBug = leftTopBug + jQuery('.bug').height();
-			var rightTopBug = leftTopBug + jQuery('.bug').width();
-			var rightBottomBug = leftBottomBug + jQuery('.bug').width();
+		if(shotClick.which == 32){
+			var rocket = true;
 
-			var leftTopRocket = jQuery('.rocket').position().top;
-			if(leftTopRocket > leftTopBug && leftTopRocket < leftBottomBug){
-				alert('попал');
+			var leftShotPosition = parseInt($('.tank').css('left')) + ($('.tank').width() / 2);
+			$('#wrapper').append('<div class="rocket" />');
+
+			function removeRocket(){
 				$(this).remove();
+				rocket = false;
 			}
-		  }
-		setInterval(count, 50);
-		
-	  }
+			$('.rocket').css('left',leftShotPosition).animate({bottom: '500px'},800, 'linear', removeRocket);	
+			function count(){
+				if(rocket == true){
+					$(".bug").each(function(){
+						// bugs coordinates
+						var topBug = $(this).position().top;
+						var bottomBug = topBug + $(this).height();
+						var leftBug = $(this).position().left;
+						var rightBug = $(this).position().left + $(this).width();
+						
+						// rocket coordinates
+						var topRocket = $('.rocket').position().top;
+						var leftRocket = $('.rocket').position().left;
+						
+						if(topRocket > topBug && topRocket < bottomBug && leftRocket > leftBug && leftRocket < rightBug){
+							rocket = false;
+							$(this).remove();
+							$('.rocket').remove();
+						}
+					});
+				}
+			}
+			setInterval(count, 30);
+			
+			return false
+		}
 	});
 });
