@@ -2,24 +2,24 @@ jQuery.noConflict();
 jQuery(document).ready(function ($) {
 	
 	$(document).keydown(function(keyclick){
-		var leftposition = $('.tank').css('left');
-		var leftposition = parseInt(leftposition);
+		var leftpositionStyle = $('.tank').css('left');
+		var leftposition = parseInt(leftpositionStyle);
 	  	if(keyclick.which == 39) {
 			var i = leftposition;
 				if(i == 520){
 					return false
 				}
 				var i = i + 15;
-				$('.tank').animate({left: i}, 1, 'swing');	
-							
+				$('.tank').animate({left: i}, 1, 'swing');
+
 		} else if (keyclick.which == 37){
 			var i = leftposition;
 			if(i == -5){
 				return false
 			}
 			var i = i - 15;
-			$('.tank').animate({left: i}, 1, 'swing');	
-			
+			$('.tank').animate({left: i}, 1, 'swing');
+
 		} else if (keyclick.which == 32) {
 			var rocket = true;
 
@@ -39,11 +39,11 @@ jQuery(document).ready(function ($) {
 						var bottomBug = topBug + $(this).height();
 						var leftBug = $(this).position().left;
 						var rightBug = $(this).position().left + $(this).width();
-						
+
 						// rocket coordinates
 						var topRocket = $('.rocket').position().top;
 						var leftRocket = $('.rocket').position().left;
-						
+
 						if(topRocket > topBug && topRocket < bottomBug && leftRocket > leftBug && leftRocket < rightBug){
 							rocket = false;
 							$(this).remove();
@@ -53,7 +53,7 @@ jQuery(document).ready(function ($) {
 				}
 			}
 			setInterval(count, 30);
-			
+
 			return false
 		}
 	});
@@ -66,6 +66,12 @@ jQuery(document).ready(function ($) {
 		}
 		$('#wrapper').css('backgroundPosition','0' +startRoud+'px');
 		startRoud = startRoud + 2;
+
+        $('.bug').each(function(){
+            if($(this).offset().top >= '770'){
+                alert('Проиграл!');
+            }
+        });
 	}
 	setInterval(changeRoad, 40);
 	
