@@ -30,7 +30,7 @@ jQuery(document).ready(function ($) {
 				rocket = false;
 				$(this).remove();
 			}
-			$('.rocket').css('left',leftShotPosition).animate({bottom: '500px'},800, 'linear', removeRocket);	
+			$('.rocket').css('left',leftShotPosition).animate({bottom: '700px'},800, 'linear', removeRocket);
 			function count(){
 				if(rocket == true){
 					$(".bug").each(function(){
@@ -59,10 +59,10 @@ jQuery(document).ready(function ($) {
 	});
 	
 	// roud
-	var startRoud = -9400;
+	var startRoud = -9200;
 	function changeRoad(){
 		if(startRoud == 0){
-			startRoud = -9400;
+			startRoud = -9200;
 		}
 		$('#wrapper').css('backgroundPosition','0' +startRoud+'px');
 		startRoud = startRoud + 2;
@@ -82,7 +82,7 @@ jQuery(document).ready(function ($) {
 			$(this).remove();
 		}
 		$('#wrapper').append('<div style="left: '+randNubrer+'px" class="bug" />');
-		$('.bug').animate({top: '500px'}, 6000, 'linear', removeBug);
+		$('.bug').animate({top: '700px'}, 6500, 'linear', removeBug);
 	}
 	setInterval(addBug, 3200);
 	
