@@ -1,7 +1,26 @@
 jQuery.noConflict();
 jQuery(document).ready(function ($) {
-	$('body').keydown(function(shotClick){
-		if(shotClick.which == 32){
+	
+	$(document).keydown(function(keyclick){
+		var leftposition = $('.tank').css('left');
+		var leftposition = parseInt(leftposition);
+	  	if(keyclick.which == 39) {
+			var i = leftposition;
+				if(i == 520){
+					return false
+				}
+				var i = i + 15;
+				$('.tank').animate({left: i}, 1, 'swing');	
+							
+		} else if (keyclick.which == 37){
+			var i = leftposition;
+			if(i == -5){
+				return false
+			}
+			var i = i - 15;
+			$('.tank').animate({left: i}, 1, 'swing');	
+			
+		} else if (keyclick.which == 32) {
 			var rocket = true;
 
 			var leftShotPosition = parseInt($('.tank').css('left')) + ($('.tank').width() / 2);
@@ -39,6 +58,16 @@ jQuery(document).ready(function ($) {
 		}
 	});
 	
+	// roud
+	var startRoud = -9400;
+	function changeRoad(){
+		if(startRoud == 0){
+			startRoud = -9400;
+		}
+		$('#wrapper').css('backgroundPosition','0' +startRoud+'px');
+		startRoud = startRoud + 2;
+	}
+	setInterval(changeRoad, 40);
 	
 	// add rand bug
 	function addBug(){
@@ -48,7 +77,16 @@ jQuery(document).ready(function ($) {
 		  return Math.floor( Math.random() * (max - min + 1) ) + min;	  
 		}
 		randNubrer = rand(1, 540);
+		
+		function removeBug(){
+			$(this).remove();
+		}
 		$('#wrapper').append('<div style="left: '+randNubrer+'px" class="bug" />');
+		$('.bug').animate({top: '500px'}, 6000, 'linear', removeBug);
 	}
-	setInterval(addBug, 2600);
+	setInterval(addBug, 3200);
+	
 });
+
+ 
+	
