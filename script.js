@@ -67,6 +67,7 @@ jQuery(document).ready(function ($) {
 		$('#wrapper').css('backgroundPosition','0' +startRoud+'px');
 		startRoud = startRoud + 2;
 
+
         $('.bug').each(function(){
             if($(this).offset().top >= '770'){
                 alert('Проиграл!');
@@ -80,7 +81,7 @@ jQuery(document).ready(function ($) {
 		function rand (min, max){
 		  min = parseInt(min);
 		  max = parseInt(max);
-		  return Math.floor( Math.random() * (max - min + 1) ) + min;	  
+		  return Math.floor( Math.random() * (max - min + 1)) + min;
 		}
 		randNubrer = rand(1, 540);
 		
