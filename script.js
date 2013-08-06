@@ -10,7 +10,7 @@ jQuery(document).ready(function ($) {
 					return false
 				}
 				var i = i + 15;
-				$('.tank').animate({left: i}, 1, 'swing');
+				$('.tank').stop().animate({left: i}, 5, 'swing');
 
 		} else if (keyclick.which == 37){
 			var i = leftposition;
@@ -18,7 +18,7 @@ jQuery(document).ready(function ($) {
 				return false
 			}
 			var i = i - 15;
-			$('.tank').animate({left: i}, 1, 'swing');
+			$('.tank').stop().animate({left: i}, 5, 'swing');
 
 		} else if (keyclick.which == 32) {
 			var rocket = true;
@@ -61,12 +61,11 @@ jQuery(document).ready(function ($) {
 	// roud
 	var startRoud = -9200;
 	function changeRoad(){
-		if(startRoud == 0){
+		if(startRoud >= 10){
 			startRoud = -9200;
 		}
 		$('#wrapper').css('backgroundPosition','0' +startRoud+'px');
-		startRoud = startRoud + 2;
-
+		startRoud = startRoud + 3;
 
         $('.bug').each(function(){
             if($(this).offset().top >= '770'){
@@ -74,7 +73,7 @@ jQuery(document).ready(function ($) {
             }
         });
 	}
-	setInterval(changeRoad, 40);
+	setInterval(changeRoad, 10);
 	
 	// add rand bug
 	function addBug(){
@@ -89,7 +88,7 @@ jQuery(document).ready(function ($) {
 			$(this).remove();
 		}
 		$('#wrapper').append('<div style="left: '+randNubrer+'px" class="bug" />');
-		$('.bug').animate({top: '700px'}, 6500, 'linear', removeBug);
+		$('.bug').animate({top: '700px'}, 6000, 'linear', removeBug);
 	}
 	setInterval(addBug, 3200);
 	
