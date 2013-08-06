@@ -88,7 +88,7 @@ jQuery(document).ready(function ($) {
 			$(this).remove();
 		}
 		$('#wrapper').append('<div style="left: '+randNubrer+'px" class="bug" />');
-		$('.bug').animate({top: '700px'}, 6000, 'linear', removeBug);
+		$('.bug').animate({top: '700px'}, 4500, 'linear', removeBug);
 	}
 	setInterval(addBug, 3200);
 	
