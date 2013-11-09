@@ -93,15 +93,29 @@ input {
 	z-index: 1;
 }
 .bug{
-	width: 48px;
-	height: 48px;
-	background: url(img/ie.png) no-repeat 0 0;
-    box-shadow: 0 0 60px #222222;
+	width: 60px;
+	height: 60px;
+	background: url(img/angry-bugs.gif) no-repeat 0 0;
+    /*box-shadow: 0 0 60px #222222;*/
     border-radius: 8px;
 	z-index: 5;
 	position: absolute;
 	top: -50px;
+    background-size: auto 60px;
 }
+.bug-1{
+    background-position: 0 0;
+}
+.bug-2{
+    background-position: -68px 0;
+}
+.bug-3{
+    background-position: -140px 0;
+}
+.bug-4{
+    background-position: -211px 0;
+}
+
 .data{
     background: rgba(94,94,94,0.7);
     padding: 5px 10px;
@@ -112,6 +126,7 @@ input {
 .data > span{
     font-weight: bold;
     font-size: 16px;
+    text-shadow: 1px 1px #000;
 }
 .kill-bugs{
     color: #3AC444;

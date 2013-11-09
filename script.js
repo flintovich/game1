@@ -10,7 +10,8 @@ jQuery(document).ready(function ($) {
     var roadSpeed = 3;
     var tankSpeed = 15;
     var level = 1;
-    var startRoud = -9200;
+    var startRoad = -9200;
+    var bugsList = new Array('1','2','3','4');
 
     // finish game
     function finishGame(){
@@ -22,12 +23,19 @@ jQuery(document).ready(function ($) {
             roadSpeed = 3;
             tankSpeed = 15;
             level = 1;
-            startRoud = -9200;
+            startRoad = -9200;
 
             $('.bugs-passed').text('0');
             $('.kill-bugs').text('0');
             $('.level').text('1');
         }
+    }
+
+    // rand
+    function rand (min, max){
+        min = parseInt(min);
+        max = parseInt(max);
+        return Math.floor( Math.random() * (max - min + 1)) + min;
     }
 
     $(document).keydown(function(keyclick){
@@ -93,16 +101,16 @@ jQuery(document).ready(function ($) {
 
     // road
     function changeRoad(){
-        if(startRoud >= 10){
+        if(startRoad >= 10){
 
-            startRoud = -9200;
+            startRoad = -9200;
             bugsSpeed = bugsSpeed - 400;
             roadSpeed = roadSpeed + 1;
             tankSpeed = tankSpeed + 3;
             $('.level').text(level+=1);
         }
-        $('#wrapper').css('backgroundPosition','0' +startRoud+'px');
-        startRoud = startRoud + roadSpeed;
+        $('#wrapper').css('backgroundPosition','0' +startRoad+'px');
+        startRoad = startRoad + roadSpeed;
 
         $('.bug').each(function(){
             if($(this).offset().top >= windowHeight){
@@ -114,12 +122,8 @@ jQuery(document).ready(function ($) {
 
     // add rand bug
     function addBug(){
-        function rand (min, max){
-            min = parseInt(min);
-            max = parseInt(max);
-            return Math.floor( Math.random() * (max - min + 1)) + min;
-        }
         randNubrer = rand(1, windowWidth - $('.tank').width());
+        randBug = rand(1, bugsList.length);
 
         function removeBug(){
             // cont bugs passed
@@ -132,7 +136,7 @@ jQuery(document).ready(function ($) {
 
             $(this).remove();
         }
-        $('#wrapper').append('<div style="left: '+randNubrer+'px" class="bug" />');
+        $('#wrapper').append('<div style="left: '+randNubrer+'px" class="bug bug-'+randBug+'" />');
         $('.bug').animate({top: windowHeight + $('.bug').height() }, bugsSpeed, 'linear', removeBug);
     }
     setInterval(addBug, 3200);
