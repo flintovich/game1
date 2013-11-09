@@ -1,23 +1,52 @@
 jQuery.noConflict();
 jQuery(document).ready(function ($) {
+    // variables and functions
+    var windowWidth = $('#wrapper').width();
+    var windowHeight = $('#wrapper').height();
+    var countFalse = false;
+    var killBugs = 1;
+    var bugsPassed = 1;
+    var bugsSpeed = 4500;
+    var roadSpeed = 3;
+    var tankSpeed = 15;
+    var level = 1;
+    var startRoud = -9200;
+
+    // finish game
+    function finishGame(){
+        if(bugsPassed > 10){
+            alert('Cчет:\nВы дошли до уровня: '+level+' и убили: '+killBugs+' врагов');
+            killBugs = 0;
+            bugsPassed = 0;
+            bugsSpeed = 4500;
+            roadSpeed = 3;
+            tankSpeed = 15;
+            level = 1;
+            startRoud = -9200;
+
+            $('.bugs-passed').text('0');
+            $('.kill-bugs').text('0');
+            $('.level').text('1');
+        }
+    }
 
     $(document).keydown(function(keyclick){
         var leftpositionStyle = $('.tank').css('left');
         var leftposition = parseInt(leftpositionStyle);
         if(keyclick.which == 39) {
             var i = leftposition;
-            if(i == 520){
+            if(i >= windowWidth - $('.tank').width() ){
                 return false
             }
-            var i = i + 15;
+            var i = i + tankSpeed;
             $('.tank').stop().animate({left: i}, 5, 'swing');
 
         } else if (keyclick.which == 37){
             var i = leftposition;
-            if(i == -5){
+            if(i <= -5){
                 return false
             }
-            var i = i - 15;
+            var i = i - tankSpeed;
             $('.tank').stop().animate({left: i}, 5, 'swing');
 
         } else if (keyclick.which == 32) {
@@ -30,7 +59,7 @@ jQuery(document).ready(function ($) {
                 rocket = false;
                 $(this).remove();
             }
-            $('.rocket').css('left',leftShotPosition).animate({bottom: '700px'},800, 'linear', removeRocket);
+            $('.rocket').css('left',leftShotPosition).animate({bottom: windowHeight},800, 'linear', removeRocket);
             function count(){
                 if(rocket == true){
                     $(".bug").each(function(){
@@ -48,6 +77,10 @@ jQuery(document).ready(function ($) {
                             rocket = false;
                             $(this).remove();
                             $('.rocket').eq(0).remove();
+
+                            // kill counts
+                            $('.kill-bugs').text(killBugs++);
+
                         }
                     });
                 }
@@ -58,18 +91,22 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    // roud
-    var startRoud = -9200;
+    // road
     function changeRoad(){
         if(startRoud >= 10){
+
             startRoud = -9200;
+            bugsSpeed = bugsSpeed - 400;
+            roadSpeed = roadSpeed + 1;
+            tankSpeed = tankSpeed + 3;
+            $('.level').text(level+=1);
         }
         $('#wrapper').css('backgroundPosition','0' +startRoud+'px');
-        startRoud = startRoud + 3;
+        startRoud = startRoud + roadSpeed;
 
         $('.bug').each(function(){
-            if($(this).offset().top >= '770'){
-                alert('Проиграл!');
+            if($(this).offset().top >= windowHeight){
+                countFalse = true;
             }
         });
     }
@@ -82,14 +119,27 @@ jQuery(document).ready(function ($) {
             max = parseInt(max);
             return Math.floor( Math.random() * (max - min + 1)) + min;
         }
-        randNubrer = rand(1, 540);
+        randNubrer = rand(1, windowWidth - $('.tank').width());
 
         function removeBug(){
+            // cont bugs passed
+            if(countFalse == true){
+                $('.bugs-passed').text(bugsPassed++);
+                countFalse = false;
+
+                finishGame(); // finish game call
+            }
+
             $(this).remove();
         }
         $('#wrapper').append('<div style="left: '+randNubrer+'px" class="bug" />');
-        $('.bug').animate({top: '700px'}, 4500, 'linear', removeBug);
+        $('.bug').animate({top: windowHeight + $('.bug').height() }, bugsSpeed, 'linear', removeBug);
     }
     setInterval(addBug, 3200);
 
+    // window resize
+    $(window).resize(function(){
+        windowWidth = $('#wrapper').width();
+        windowHeight = $('#wrapper').height();
+    });
 });
