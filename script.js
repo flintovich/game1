@@ -89,7 +89,6 @@ jQuery(document).ready(function ($) {
             return false
         }
 
-        console.log(x_mousePosition);
         $('.tank').css('left',x_mousePosition + 50 - $('.tank').width() / 2);
     });
 
