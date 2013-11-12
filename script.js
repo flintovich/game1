@@ -1,11 +1,11 @@
 jQuery.noConflict();
 jQuery(document).ready(function ($) {
     // variables and functions
-    var windowWidth = $('#wrapper').width();
-    var windowHeight = $('#wrapper').height();
+    var windowWidth = $('body').width();
+    var windowHeight = $('body').height();
     var countFalse = false;
-    var killBugs = 1;
-    var bugsPassed = 1;
+    var killBugs = 0;
+    var bugsPassed = 0;
     var bugsSpeed = 4500;
     var roadSpeed = 3;
     var tankSpeed = 15;
@@ -37,29 +37,8 @@ jQuery(document).ready(function ($) {
         return Math.floor( Math.random() * (max - min + 1)) + min;
     }
 
-    $(document).keydown(function(keyclick){
-        var leftpositionStyle = $('.tank').css('left');
-        var leftposition = parseInt(leftpositionStyle);
-        if(keyclick.which == 39) {
-            var i = leftposition;
-            if(i >= windowWidth - $('.tank').width() ){
-                return false
-            }
-            var i = i + tankSpeed;
-            $('.tank').stop().animate({left: i}, 5, 'swing');
 
-        } else if (keyclick.which == 37){
-            var i = leftposition;
-            if(i <= -5){
-                return false
-            }
-            var i = i - tankSpeed;
-            $('.tank').stop().animate({left: i}, 5, 'swing');
-
-        } else if (keyclick.which == 32) {
-
-        }
-    });
+    $('#wrapper').css('height', windowHeight);
 
     $('#wrapper, .bug').click(function(e){
         var rocket = true;
@@ -91,7 +70,7 @@ jQuery(document).ready(function ($) {
                         $('.rocket-'+rocketPosition).remove();
 
                         // kill counts
-                        $('.kill-bugs').text(killBugs++);
+                        $('.kill-bugs').text(killBugs+=1);
 
                     }
                 });
@@ -105,6 +84,12 @@ jQuery(document).ready(function ($) {
     // mouse move
     $('#wrapper').mousemove(function(e){
         var x_mousePosition = e.clientX;
+        if(x_mousePosition + 100 >= windowWidth){
+            x_mousePosition = windowWidth - 100
+            return false
+        }
+
+        console.log(x_mousePosition);
         $('.tank').css('left',x_mousePosition + 50 - $('.tank').width() / 2);
     });
 
@@ -113,7 +98,7 @@ jQuery(document).ready(function ($) {
         if(startRoad >= 10){
 
             startRoad = -9200;
-            bugsSpeed = bugsSpeed - 400;
+            bugsSpeed = bugsSpeed - 300;
             roadSpeed = roadSpeed + 1;
             tankSpeed = tankSpeed + 3;
             $('.level').text(level+=1);
@@ -129,6 +114,17 @@ jQuery(document).ready(function ($) {
     }
     setInterval(changeRoad, 10);
 
+
+    // amount bugs for some time
+    var BugsSpeed = 600;
+    if(level <= 3){
+        BugsSpeed = 1000;
+    } else if(level <= 6){
+        BugsSpeed = 2000;
+    } else if (level >= 7 ){
+        BugsSpeed = 3200;
+    }
+
     // add rand bug
     function addBug(){
         randNubrer = rand(1, windowWidth - $('.tank').width());
@@ -137,7 +133,7 @@ jQuery(document).ready(function ($) {
         function removeBug(){
             // cont bugs passed
             if(countFalse == true){
-                $('.bugs-passed').text(bugsPassed++);
+                $('.bugs-passed').text(bugsPassed+=1);
                 countFalse = false;
 
                 finishGame(); // finish game call
@@ -146,13 +142,14 @@ jQuery(document).ready(function ($) {
             $(this).remove();
         }
         $('#wrapper').append('<div style="left: '+randNubrer+'px" class="bug bug-'+randBug+'" />');
-        $('.bug').animate({top: windowHeight + $('.bug').height() }, bugsSpeed, 'linear', removeBug);
+        $('.bug').animate({top: windowHeight + ($('.bug').height()*5)}, bugsSpeed, 'linear', removeBug);
     }
-    setInterval(addBug, 3200);
+    setInterval(addBug, BugsSpeed);
 
     // window resize
     $(window).resize(function(){
-        windowWidth = $('#wrapper').width();
-        windowHeight = $('#wrapper').height();
+        windowWidth = $('body').width();
+        windowHeight = $('body').height();
+        $('#wrapper').css('height', windowHeight);
     });
 });
