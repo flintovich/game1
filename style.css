@@ -74,6 +74,8 @@ input {
 	position: relative;
 	overflow: hidden;
 	background: url(img/levelmap.jpg) repeat-x 50% 100%;
+    background-size: 100% auto;
+    cursor: url(img/sight.png),crosshair;
 }
 .tank{
 	width: 81px;
@@ -84,10 +86,12 @@ input {
 	left: 250px;
 }
 .rocket{
-	width: 2px;
-	height: 10px;
-    box-shadow: 0 0 8px 4px #000;
-	background: #000;
+	/*width: 2px;
+	height: 10px;*/
+    width: 15px;
+    height: 32px;
+    /*box-shadow: 0 0 8px 4px #cc0000;*/
+	background: url(img/rocket.png) no-repeat 0 0;
 	position: absolute;
 	bottom: 100px;
 	z-index: 1;

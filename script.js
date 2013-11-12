@@ -11,7 +11,6 @@ jQuery(document).ready(function ($) {
     var tankSpeed = 15;
     var level = 1;
     var startRoad = -9200;
-    var bugsList = new Array('1','2','3','4');
 
     // finish game
     function finishGame(){
@@ -58,45 +57,55 @@ jQuery(document).ready(function ($) {
             $('.tank').stop().animate({left: i}, 5, 'swing');
 
         } else if (keyclick.which == 32) {
-            var rocket = true;
 
-            var leftShotPosition = parseInt($('.tank').css('left')) + ($('.tank').width() / 2);
-            $('#wrapper').append('<div class="rocket" />');
-
-            function removeRocket(){
-                rocket = false;
-                $(this).remove();
-            }
-            $('.rocket').css('left',leftShotPosition).animate({bottom: windowHeight},800, 'linear', removeRocket);
-            function count(){
-                if(rocket == true){
-                    $(".bug").each(function(){
-                        // bugs coordinates
-                        var topBug = $(this).position().top;
-                        var bottomBug = topBug + $(this).height();
-                        var leftBug = $(this).position().left;
-                        var rightBug = $(this).position().left + $(this).width();
-
-                        // rocket coordinates
-                        var topRocket = $('.rocket').position().top;
-                        var leftRocket = $('.rocket').position().left;
-
-                        if(topRocket > topBug && topRocket < bottomBug && leftRocket > leftBug && leftRocket < rightBug){
-                            rocket = false;
-                            $(this).remove();
-                            $('.rocket').eq(0).remove();
-
-                            // kill counts
-                            $('.kill-bugs').text(killBugs++);
-
-                        }
-                    });
-                }
-            }
-            setInterval(count, 30);
-
-            return false
         }
+    });
+
+    $('#wrapper, .bug').click(function(e){
+        var rocket = true;
+        var rocketPosition = e.clientX;
+        var leftShotPosition = parseInt($('.tank').css('left')) + ($('.tank').width() / 2);
+        $('#wrapper').append('<div class="rocket rocket-'+rocketPosition+'" />');
+
+        function removeRocket(){
+            rocket = false;
+            $(this).remove();
+        }
+        $('.rocket-'+rocketPosition).css('left',leftShotPosition -6).animate({bottom: windowHeight},800, 'linear', removeRocket);
+        function count(){
+            if(rocket == true){
+                $(".bug").each(function(){
+                    // bugs coordinates
+                    var topBug = $(this).position().top;
+                    var bottomBug = topBug + $(this).height();
+                    var leftBug = $(this).position().left;
+                    var rightBug = $(this).position().left + $(this).width();
+
+                    // rocket coordinates
+                    var topRocket = $('.rocket-'+rocketPosition).position().top;
+                    var leftRocket = $('.rocket-'+rocketPosition).position().left;
+
+                    if(topRocket > topBug && topRocket < bottomBug && leftRocket > leftBug && leftRocket < rightBug){
+                        rocket = false;
+                        $(this).remove();
+                        $('.rocket-'+rocketPosition).remove();
+
+                        // kill counts
+                        $('.kill-bugs').text(killBugs++);
+
+                    }
+                });
+            }
+        }
+        setInterval(count, 30);
+
+        return false
+    });
+
+    // mouse move
+    $('#wrapper').mousemove(function(e){
+        var x_mousePosition = e.clientX;
+        $('.tank').css('left',x_mousePosition + 50 - $('.tank').width() / 2);
     });
 
     // road
@@ -123,7 +132,7 @@ jQuery(document).ready(function ($) {
     // add rand bug
     function addBug(){
         randNubrer = rand(1, windowWidth - $('.tank').width());
-        randBug = rand(1, bugsList.length);
+        randBug = rand(1, 4);
 
         function removeBug(){
             // cont bugs passed
