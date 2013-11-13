@@ -7,7 +7,7 @@ jQuery(document).ready(function ($) {
     var killBugs = 0;
     var bugsPassed = 0;
     var bugsSpeed = 4500;
-    var roadSpeed = 3;
+    var roadSpeed = 1;
     var tankSpeed = 15;
     var level = 1;
     var startRoad = -9200;
@@ -19,7 +19,7 @@ jQuery(document).ready(function ($) {
             killBugs = 0;
             bugsPassed = 0;
             bugsSpeed = 4500;
-            roadSpeed = 3;
+            roadSpeed = 1;
             tankSpeed = 15;
             level = 1;
             startRoad = -9200;
@@ -38,19 +38,20 @@ jQuery(document).ready(function ($) {
     }
 
 
+
     $('#wrapper').css('height', windowHeight);
 
     $('#wrapper, .bug').click(function(e){
         var rocket = true;
-        var rocketPosition = e.clientX;
+        var i = rand(0,9999);
         var leftShotPosition = parseInt($('.tank').css('left')) + ($('.tank').width() / 2);
-        $('#wrapper').append('<div class="rocket rocket-'+rocketPosition+'" />');
+        $('#wrapper').append('<div class="rocket rocket-'+i+'" />');
 
         function removeRocket(){
             rocket = false;
             $(this).remove();
         }
-        $('.rocket-'+rocketPosition).css('left',leftShotPosition -6).animate({bottom: windowHeight},800, 'linear', removeRocket);
+        $('.rocket-'+i).css('left',leftShotPosition -6).animate({bottom: windowHeight},800, 'linear', removeRocket);
         function count(){
             if(rocket == true){
                 $(".bug").each(function(){
@@ -61,13 +62,13 @@ jQuery(document).ready(function ($) {
                     var rightBug = $(this).position().left + $(this).width();
 
                     // rocket coordinates
-                    var topRocket = $('.rocket-'+rocketPosition).position().top;
-                    var leftRocket = $('.rocket-'+rocketPosition).position().left;
+                    var topRocket = $('.rocket-'+i).position().top;
+                    var leftRocket = $('.rocket-'+i).position().left;
 
                     if(topRocket > topBug && topRocket < bottomBug && leftRocket > leftBug && leftRocket < rightBug){
                         rocket = false;
                         $(this).remove();
-                        $('.rocket-'+rocketPosition).remove();
+                        $('.rocket-'+i).css('opacity',0);
 
                         // kill counts
                         $('.kill-bugs').text(killBugs+=1);
@@ -98,7 +99,7 @@ jQuery(document).ready(function ($) {
 
             startRoad = -9200;
             bugsSpeed = bugsSpeed - 300;
-            roadSpeed = roadSpeed + 1;
+            roadSpeed = roadSpeed + 0.5;
             tankSpeed = tankSpeed + 3;
             $('.level').text(level+=1);
         }
