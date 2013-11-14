@@ -1,13 +1,15 @@
 jQuery.noConflict();
 jQuery(document).ready(function ($) {
+    // ---------------------------------------
     // variables and functions
+    // ---------------------------------------
     var windowWidth = $('body').width();
     var windowHeight = $('body').height();
     var countFalse = false;
     var killBugs = 0;
     var bugsPassed = 0;
     var bugsSpeed = 4500;
-    var roadSpeed = 1;
+    var roadSpeed = 2;
     var tankSpeed = 15;
     var level = 1;
     var startRoad = -9200;
@@ -37,11 +39,37 @@ jQuery(document).ready(function ($) {
         return Math.floor( Math.random() * (max - min + 1)) + min;
     }
 
+    // Если ничего нет - возвращаем обычный таймер
+    window.requestAnimFrame = (function(){
+        return  window.requestAnimationFrame       ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame    ||
+            window.oRequestAnimationFrame      ||
+            window.msRequestAnimationFrame     ||
+            function(/* function */ callback, /* DOMElement */ element){
+                window.setTimeout(callback, 1000 / 60);
+            };
+    })();
 
+
+    // ---------------------------------------
+    // base
+    // ---------------------------------------
 
     $('#wrapper').css('height', windowHeight);
 
-    $('#wrapper, .bug').click(function(e){
+    // window resize
+    $(window).resize(function(){
+        windowWidth = $('body').width();
+        windowHeight = $('body').height();
+        $('#wrapper').css('height', windowHeight);
+    });
+
+
+    // ---------------------------------------
+    // mouse click
+    // ---------------------------------------
+    $('#wrapper, .bug').click(function(){
         var rocket = true;
         var i = rand(0,9999);
         var leftShotPosition = parseInt($('.tank').css('left')) + ($('.tank').width() / 2);
@@ -77,12 +105,18 @@ jQuery(document).ready(function ($) {
                 });
             }
         }
-        setInterval(count, 30);
+        (function animationLoop(){
+            count();
+            requestAnimationFrame(animationLoop, '.bug');
+        })();
 
         return false
     });
 
+
+    // ---------------------------------------
     // mouse move
+    // ---------------------------------------
     $('#wrapper').mousemove(function(e){
         var x_mousePosition = e.clientX;
         if(x_mousePosition + 100 >= windowWidth){
@@ -93,13 +127,16 @@ jQuery(document).ready(function ($) {
         $('.tank').css('left',x_mousePosition + 50 - $('.tank').width() / 2);
     });
 
+
+    // ---------------------------------------
     // road
+    // ---------------------------------------
     function changeRoad(){
         if(startRoad >= 10){
 
             startRoad = -9200;
             bugsSpeed = bugsSpeed - 300;
-            roadSpeed = roadSpeed + 0.5;
+            roadSpeed = roadSpeed + 0.7;
             tankSpeed = tankSpeed + 3;
             $('.level').text(level+=1);
         }
@@ -112,8 +149,10 @@ jQuery(document).ready(function ($) {
             }
         });
     }
-    setInterval(changeRoad, 10);
-
+    (function animationLoop(){
+        changeRoad();
+        requestAnimationFrame(animationLoop, '#wrapper');
+    })();
 
     // amount bugs for some time
     var BugsSpeed = 600;
@@ -130,6 +169,13 @@ jQuery(document).ready(function ($) {
         randNubrer = rand(1, windowWidth - $('.tank').width());
         randBug = rand(1, 4);
 
+        if(level <= 3){
+            bugsSpeed = rand(3500, 7000);
+        } else if(level <= 6){
+            bugsSpeed = rand(3000, 6000);
+        } else if (level >= 7 ){
+            bugsSpeed = rand(3100, 5000);
+        }
         function removeBug(){
             // cont bugs passed
             if(countFalse == true){
@@ -146,10 +192,15 @@ jQuery(document).ready(function ($) {
     }
     setInterval(addBug, BugsSpeed);
 
-    // window resize
-    $(window).resize(function(){
-        windowWidth = $('body').width();
-        windowHeight = $('body').height();
-        $('#wrapper').css('height', windowHeight);
-    });
+    // ---------------------------------------
+    // add rand bonuses
+    // ---------------------------------------
+
+    // fighter
+    function fighter(){
+        $('#wrapper').append('<div style="left: '+randNubrer+'px" class="bonus fighter" />');
+        $('.fighter').animate({top: windowHeight + ($('.fighter').height()*5)}, bugsSpeed, 'linear');
+    }
+    setInterval(fighter, 3000);
+
 });

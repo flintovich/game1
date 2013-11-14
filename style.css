@@ -120,6 +120,13 @@ input {
 .bug-4{
     background-position: -211px 0;
 }
+.bonus{
+    width: 100px;
+    height: 100px;
+    background: #E5A939;
+    box-shadow: 0 0 10px;
+    position: absolute;
+}
 
 .data{
     background: rgba(94,94,94,0.7);
